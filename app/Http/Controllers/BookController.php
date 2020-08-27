@@ -14,7 +14,14 @@ class BookController extends Controller
      */
     public function index()
     {
-        return Book::get();
+        $book = Book::all();
+        if ($book && $book -> count() > 0)
+        {
+            return response(['message' => 'Show data success.', 'data' => $book], 200);
+        }else
+        {
+            return response(['message' => 'Data not found.', 'data' => null], 404);
+        }
     }
 
     /**
@@ -36,13 +43,15 @@ class BookController extends Controller
     public function store(Request $request)
     {
         //
-        return Book::create([
+        $book = Book::create([
             "title" => $request->input('title'),
             "description" => $request->input('description'),
             "author" => $request->input('author'),
             "publisher" => $request->input('publisher'),
             "date_of_issue" => $request->input('date_of_issue')
         ]);
+
+        return response(['message' => 'Create data success.', 'data' => $book], 201);
     }
 
     /**
@@ -54,7 +63,15 @@ class BookController extends Controller
     public function show($id)
     {
         //
-        return Book::find($id);
+        $book = Book::find($id);
+
+        if ($book && $book -> count() > 0)
+        {
+            return response(['message' => 'Show data success.', 'data' => $book], 200);
+        }else
+        {
+            return response(['message' => 'Data not found.', 'data' => null], 404);
+        }
     }
 
     /**
@@ -84,6 +101,8 @@ class BookController extends Controller
             "publisher" => $request->input('publisher'),
             "date_of_issue" => $request->input('date_of_issue')
         ]);
+
+        return response(['message' => 'Update data success.', 'data' => $book], 200);
     }
 
     /**
